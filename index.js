@@ -4,18 +4,17 @@ import { bookAppointment ,Accept,Reject,Reschedule,GetHNI} from "./database.js";
 var app = express();
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(express.json({ limit: "10mb" }));
-let appno = 1;
 const HTTP_PORT = 8000
 app.listen(HTTP_PORT, () => {
     console.log("Server is listening on port " + HTTP_PORT);
     console.log("http://localhost:"+HTTP_PORT+"/");
 });
 app.get("/", (req,res) => {
-    res.json({"message":"Ok"})
+    res.sendFile('/Users/abhishek/Desktop/DBS/code/index.html');
 });
 app.post("/bookAppointment",async(req,res)=>{
-    req.body.appno = appno;
-    appno++;
+    console.log(req.body);
+    req.body.flag = false;
     let book = await bookAppointment(req.body) ;
     res.send(book);
 });

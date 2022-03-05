@@ -1,4 +1,5 @@
 import sqlite3 from "sqlite3";
+import sqliteJson from "sqlite-json";
 const DBSOURCE = "db.sqlite";
 let db = new sqlite3.Database(DBSOURCE, (err) => {
     if (err) {
@@ -9,7 +10,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
     else{
         console.log('Connected to the SQLite database.');
             try{ 
-                // db.run('CREATE TABLE appointment ( appno INTEGER PRIMARY KEY AUTOINCREMENT,date vartchar(30),time varchar(30) ,hni_id varchar(30),wm_id varchar(30),flag boolean,status varchar(30))');
+                // db.run('CREATE TABLE appointment ( appno INTEGER PRIMARY KEY ,date vartchar(30),time varchar(30) ,hni_id varchar(30),wm_id varchar(30),flag boolean,status varchar(30))');
                 // db.run('CREATE TABLE HNI (hni_id varchar(30) PRIMARY KEY,status varchar(30),appno integer,date varchar(30),time varchar(30))');
                 // db.run('CREATE TABLE WM (wm_id varchar(30) PRIMARY KEY,status varchar(30),appno integer,date varchar(30),time varchar(30))');
                 console.log("done!!!!")
@@ -60,7 +61,10 @@ export async function Reject(body){
 export async function GetHNI(){{
     let result = db.get('select * from HNI where appno=?',2);
     console.log(result);
-    return JSON.stringify(result);
+    exporter.json('select * FROM HNI', function (err, json) {
+        console.log(json);
+        return json;
+      });
 }
 
 } 
